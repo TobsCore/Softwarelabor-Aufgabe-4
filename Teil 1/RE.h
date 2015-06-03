@@ -105,6 +105,12 @@ class Alt : public RE {
     if(r1->isPhi()) return r2;
     // 7. `r1 + r2 ==> r1` falls `L(r2)={}`
     if(r2->isPhi()) return r1;
+      
+      if(equals(r1, r2)) {
+          return r1;
+      }
+      
+      
 
     return this;
   
@@ -136,6 +142,25 @@ class Conc : public RE {
   bool isPhi() { 
     return (r1->isPhi() || r2->isPhi());
   }
+    RE* simp() {
+        r1 = r1->simp();
+        r2 = r2->simp();
+        
+        if(r1->isPhi() || r2->isPhi()) {
+            return new Phi();
+        }
+        
+        if(r1->ofType() == EpsType && r2->ofType() == EpsType) {
+            return new Eps();
+        } else if(r1->ofType() == EpsType && r2->ofType() != EpsType) {
+            return r2;
+        } else if(r1->ofType() != EpsType && r2->ofType() == EpsType) {
+            return r1;
+        }
+        
+        return this;
+        
+    }
 };
 
 class Star : public RE {
