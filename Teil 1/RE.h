@@ -146,7 +146,7 @@ class Conc : public RE {
         r1 = r1->simp();
         r2 = r2->simp();
         
-        if(r1->isPhi() || r2->isPhi()) {
+        if(r1->isPhi() || r2->isPhi()) {
             return new Phi();
         }
         
